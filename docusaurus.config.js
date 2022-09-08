@@ -73,7 +73,7 @@ const config = {
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'docs.butlr.io',
+            href: 'https://docs.butlr.io',
             label: 'API Docs',
             position: 'right',
           },
@@ -96,7 +96,7 @@ const config = {
             items: [
               {
                 label: 'Butlr Website',
-                href: 'https://www.butlr.io',
+                href: 'https://butlr.io',
               },
             ],
           },
