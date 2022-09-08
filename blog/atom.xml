@@ -6,7 +6,7 @@
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://butlrtechnologies.github.io/blog"/>
     <subtitle>Butlr  Blog</subtitle>
-    <icon>https://butlrtechnologies.github.io/img/Butlr_Logo.png</icon>
+    <icon>https://butlrtechnologies.github.io/img/B-Logo-Black.svg</icon>
     <entry>
         <title type="html"><![CDATA[Welcome]]></title>
         <id>welcome</id>
