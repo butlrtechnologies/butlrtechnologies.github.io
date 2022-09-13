@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbutlr_integrations=self.webpackChunkbutlr_integrations||[]).push([[77],{3011:t=>{t.exports=JSON.parse('{"permalink":"/blog/tags/butlr","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
