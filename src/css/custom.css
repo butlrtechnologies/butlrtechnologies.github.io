@@ -35,3 +35,10 @@
   --aa-panel-border-color-rgb: rgb(23, 23, 23)!important;
 }
 
+.footer__title {
+  text-align: center;
+}
+.footer__item {
+  text-align: center;
+}
+
