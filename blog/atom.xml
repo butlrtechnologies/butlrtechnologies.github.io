@@ -12,8 +12,8 @@
         <id>welcome</id>
         <link href="https://butlrtechnologies.github.io/blog/welcome"/>
         <updated>2021-08-01T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Welcome to the Butlr Integrations page, where we will post usage examples of our API's to create visuals like in our Studio Application. Think of our API docs as the specification, and this is our ever evolving, developer-friendly guide.]]></summary>
-        <content type="html"><![CDATA[<p>Welcome to the Butlr Integrations page, where we will post usage examples of our API's to create visuals like in our Studio Application. Think of our API docs as the specification, and this is our ever evolving, developer-friendly guide.</p>]]></content>
+        <summary type="html"><![CDATA[Here we we will post usage examples of our API's to create visuals like in our Studio Application. Think of our API docs as the specification, and this is our ever evolving, developer-friendly guide.]]></summary>
+        <content type="html"><![CDATA[<p>Here we we will post usage examples of our API's to create visuals like in our Studio Application. Think of our API docs as the specification, and this is our ever evolving, developer-friendly guide.</p>]]></content>
         <author>
             <name>Ross Desmond</name>
             <uri>https://github.com/rdesmond1991</uri>

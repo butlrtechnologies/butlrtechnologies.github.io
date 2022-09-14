@@ -13,8 +13,8 @@
             <link>https://butlrtechnologies.github.io/blog/welcome</link>
             <guid>welcome</guid>
             <pubDate>Sun, 01 Aug 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Welcome to the Butlr Integrations page, where we will post usage examples of our API's to create visuals like in our Studio Application. Think of our API docs as the specification, and this is our ever evolving, developer-friendly guide.]]></description>
-            <content:encoded><![CDATA[<p>Welcome to the Butlr Integrations page, where we will post usage examples of our API's to create visuals like in our Studio Application. Think of our API docs as the specification, and this is our ever evolving, developer-friendly guide.</p>]]></content:encoded>
+            <description><![CDATA[Here we we will post usage examples of our API's to create visuals like in our Studio Application. Think of our API docs as the specification, and this is our ever evolving, developer-friendly guide.]]></description>
+            <content:encoded><![CDATA[<p>Here we we will post usage examples of our API's to create visuals like in our Studio Application. Think of our API docs as the specification, and this is our ever evolving, developer-friendly guide.</p>]]></content:encoded>
             <category>butlr</category>
             <category>hello</category>
         </item>
