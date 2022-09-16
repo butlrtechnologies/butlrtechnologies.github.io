@@ -86,7 +86,7 @@ for (var i = 0; i < SampleSensorData.data.length; i++) {
 For this we will rotate the local coordinates by the orientation of the sensor, and translate by adding the sensor coordinates.
 
 ```js
-// This function rotates around the center xc, cy, by the angle theta
+// This function rotates around the center cx, cy, by the angle theta
 const rotate = (cx, cy, x, y, degrees) => {
 	var radians = degres * Math.PI/180,
 		cos = Math.cos(radians),
