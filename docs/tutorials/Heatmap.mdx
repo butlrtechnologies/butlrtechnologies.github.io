@@ -1,0 +1,293 @@
+---
+sidebar_position: 1
+---
+
+import { useRef, useEffect } from 'react'
+import {Canvas, AnimatedCanvas} from '@site/src/components/Heatmap/heatmap'
+
+# Creating a custom heatmap
+
+## Animated Heatmap
+
+<AnimatedCanvas loc={[0,0]} rot={0}/>
+
+## Historical Heatmap
+
+<Canvas loc={[0,0]} rot={0}/>
+
+## Get Sensor Information
+
+Use the [Sensor Details API](https://docs.butlr.io/#operation/get-sensors-id) to get coordinates, height, and orientation.
+
+*Note Orientation is stored in Yaw, pitch, roll [0.0., 0.0, 0.0] (unit: degrees)*
+
+## Activity From StreamAPI to Heatmap
+
+Use the [REST API](https://docs.butlr.dev/#tag/Streams) to get the time and `detections_local` data.
+
+### StreamAPI Data Parsing
+
+```jsx
+{
+	"data": [
+		{
+			"time": "2021-06-22 22:35:10.655000+00:00",
+			"detections_local": [
+				[
+					0.5,
+					0.5
+				]
+			],
+		"device_id": "00-17-0d-00-00-70-54-8a",
+		"room_tag": "office"
+		},
+		{
+			"time": "2021-06-22 22:35:10.655000+00:00",
+			"detections_local": [
+				[
+					0.5,
+					0.5
+				]
+			],
+		"device_id": "00-17-0d-00-00-70-54-8a",
+		"room_tag": "office"
+		},
+	]
+}
+```
+
+## Transform Stream API local to Sensor Coordinates
+
+Since we get a historical location, we will first change the local coordinate into the sensor coordinate. 
+
+
+```tsx
+// Get the Sensor information from the Sensor API
+const sensor = {height: 2.76, orientation: [0, 0, 0], coordinates: [2.5, 2.5]} // Example Sensor
+// Field of view is currently constant and is 60 degrees
+const fov = 1.0472 // rad := 60 degrees
+// Get the projected sensor size, which is a square projected to the ground based on the height, therefore we use the tangent of half the fov * height(adjacent) * 2
+const sensorSize =  Math.tan(fov/2)*sensor.height*2 // this gives us the sensor projected coverage in meters
+// Then half the sensor size is the center of the sensor
+const sensorCenter = sensorSize/2
+
+// Get the detections_local from the StreamAPI and iterate through them to get the sensor coordinates
+for (var i = 0; i < SampleSensorData.data.length; i++) {
+	SampleSensorData.data[i].detections_local.forEach(function(detection, index) {
+		// Scale the detection to the sensor size, [0,0] is top left [x,y], so multiple the 0-1 detection value by the sensor size
+		const xLocal = item[0] * sensorSize
+		const yLocal = item[1] * sensorSize
+		//...
+	}
+}
+```
+
+## Transform to world coordinates
+For this we will rotate the local coordinates by the orientation of the sensor, and translate by adding the sensor coordinates.
+
+```js
+// This function rotates around the center cx, cy, by the angle theta
+const rotate = (cx, cy, x, y, degrees) => {
+	var radians = degres * Math.PI/180,
+		cos = Math.cos(radians),
+		sin = Math.sin(radians),
+		nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+		ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+    return [nx, ny];
+}
+
+// Get the detections_local from the StreamAPI and iterate through them to get the sensor coordinates
+for (var i = 0; i < SampleSensorData.data.length; i++) {
+	SampleSensorData.data[i].detections_local.forEach(function(detection, index) {
+		// Scale the detection to the sensor size, [0,0] is top left [x,y], so multiple the 0-1 detection value by the sensor size
+		const xLocal = item[0] * sensorSize
+		const yLocal = item[1] * sensorSize
+		// Then rotate the detection to the local frame, orientation is in terms of the center, so we need to rotate around the center
+		// Note we only rotate around the z axis (roll)
+		const rotated = rotate(sensorCenter.X, sensorCenter.Y, xLocal, yLocal, sensor.orientation[2])
+		// Next we translate to the global frame, note coordinates are to the sensor center, so we need to subtract the sensor center
+		const xGlobal = rotated[0] + sensor.coordinates[0] - sensorCenter.X
+		const yGlobal = rotated[1] + sensor.coordinates[1] - sensorCenter.Y
+		//...
+	}
+}
+```
+
+## Project into Heatgrid
+Here we take the world coordinates and project them into a grid. We will use a 2D array to represent the grid, and we will use the number of detections to represent the intensity of the heatmap. We will also keep track of the maximum intensity to normalize the heatmap.
+You can use the Spaces API to get the size of the space to accurately project the heatmap.
+
+```js
+let gridSize = {width: 5, height: 5} // meters
+let grid = [[0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0]]
+
+//....
+// Now we place this into the grid, we need to convert the meters to the grid size
+const xGrid = Math.floor((xGlobal/gridSize.width) * grid.length)
+const yGrid = Math.floor((yGlobal/gridSize.height) * grid.length)
+grid[xGrid][yGrid] += 1
+```
+
+## Rendering the Heatgrid
+Use the grid, and the maximum intensity to render the heatmap. You can use a shader to choose different colors based on the intensity. In this case I chose to change the opacity (alpha) to display the heatmap.
+
+```js
+const draw = (ctx, grid, max_int) => {
+	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+	ctx.fillStyle = '#000000'
+	ctx.beginPath()
+	const height = ctx.canvas.height/grid.length
+	const width = ctx.canvas.width/grid.length
+	ctx.globalAlpha = 0.01;
+	ctx.fillStyle = "red";
+	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+	for (var i = 0; i < grid.length; i++) { 
+		for (var j = 0; j < grid[i].length; j++) { 
+			ctx.beginPath()
+			ctx.globalAlpha = 0.95 * (grid[i][j])/max_int;
+			ctx.fillStyle = "red";
+			ctx.fillRect(i*width, j*height, width, height)
+		}
+	}
+}
+```
+
+## All together
+
+```js
+export const SampleSensorData =
+	{
+	"data": [
+		{
+			"time": "2021-06-22 22:35:10.655000+00:00",
+			"detections_local": [
+				[
+					0,
+					0
+				]
+			],
+		"device_id": "00-17-0d-00-00-70-54-8a",
+		"room_tag": "office"
+		},
+		{
+			"time": "2021-06-22 22:35:10.655000+00:00",
+			"detections_local": [
+				[
+					0.2,
+					0.5
+				]
+			],
+		"device_id": "00-17-0d-00-00-70-54-8a",
+		"room_tag": "office"
+		},
+		{
+			"time": "2021-06-22 22:35:10.655000+00:00",
+			"detections_local": [
+				[
+					0.2,
+					0.1
+				]
+			],
+		"device_id": "00-17-0d-00-00-70-54-8a",
+		"room_tag": "office"
+		},
+				{
+			"time": "2021-06-22 22:35:10.655000+00:00",
+			"detections_local": [
+				[
+					0.5,
+					0.3
+				],
+								[
+					0.1,
+					0.9
+				], 
+				[
+					0.2,
+					0.5
+				]
+			],
+		"device_id": "00-17-0d-00-00-70-54-8a",
+		"room_tag": "office"
+		},
+	]
+}
+
+export function rotate(cx, cy, x, y, degrees) {
+	var radians = degres * Math.PI/180,,
+	    cos = Math.cos(radians),
+		sin = Math.sin(radians),
+		nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+		ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+    return [nx, ny];
+}
+
+export const Canvas = props => {
+  const canvasRef = useRef(null)
+  let grid = [[0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0]]
+  const draw = (ctx, grid, max_int) => {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+    ctx.fillStyle = '#000000'
+    ctx.beginPath()
+	const height = ctx.canvas.height/grid.length
+	const width = ctx.canvas.width/grid.length
+	ctx.globalAlpha = 0.01;
+	ctx.fillStyle = "red";
+	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+	for (var i = 0; i < grid.length; i++) { 
+		for (var j = 0; j < grid[i].length; j++) { 
+			ctx.beginPath()
+			ctx.globalAlpha = 0.95 * (grid[i][j])/max_int;
+			ctx.fillStyle = "red";
+			ctx.fillRect(i*width, j*height, width, height)
+		}
+	}
+  }
+  const sensor = {height: 2.76, orientation: [0, 0, 0], coordinates: [2.5, 2.5]}
+  const fov = 1.0472 // rad := 60 degrees
+  const sensorSize =  Math.tan(fov/2)*sensor.height*2 // this gives us the sensor projected coverage in meters
+  let sensorCenter = {X: sensorSize/2, Y: sensorSize/2}
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const context = canvas.getContext('2d')
+	let frameMax = SampleSensorData.data.length
+    let gridSize = {width: 5, height: 5} // meters
+    //Our draw came here
+	let maxInt = 0
+    const render = () => {
+		for (var i = 0; i < SampleSensorData.data.length; i++) {
+			SampleSensorData.data[i].detections_local.forEach(function(item, index) {
+				// Scale the detection to the sensor size, [0,0] is top left [x,y]
+				const xLocal = item[0] * sensorSize
+				const yLocal = item[1] * sensorSize
+				// Then rotate the detection to the local frame, orientation is in terms of the center, so we need to rotate around the center
+				// Note we only rotate around the z axis (roll)
+				const rotated = rotate(sensorCenter.X, sensorCenter.Y, xLocal, yLocal, sensor.orientation[2])
+				// Next we translate to the global frame, note coordinates are to the sensor center, so we need to subtract the sensor center
+				const xGlobal = rotated[0] + sensor.coordinates[0] - sensorCenter.X
+				const yGlobal = rotated[1] + sensor.coordinates[1] - sensorCenter.Y
+				// Now we place this into the grid, we need to convert the meters to the grid size
+				const xGrid = Math.floor((xGlobal/gridSize.width) * grid.length)
+				const yGrid = Math.floor((yGlobal/gridSize.height) * grid.length)
+				grid[xGrid][yGrid] += 1
+				if (grid[xGrid][yGrid] > maxInt) {
+					maxInt = grid[xGrid][yGrid]
+				}
+			})
+		}
+		draw(context, grid, maxInt)
+	}
+    render()
+  }, [draw])
+  return <canvas ref={canvasRef} {...props}/>
+}
+```
+
