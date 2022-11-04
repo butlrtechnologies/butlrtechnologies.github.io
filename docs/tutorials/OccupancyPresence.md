@@ -167,7 +167,7 @@ Let's focus on 1 room
 * `min` is the `MIN(sensor.occupancy.value)` of presence events
 * `max` is the `MAX(sensor.occupancy.value)` of presence events
 * `count` is the `COUNT(sensor.occupancy.time)` of presence events
-* `mean` is the `AVG(sensor.occupancy.value)` of presence events. This is the average occupancy of the room. `SUM(sensor.occupancy.value) / COUNT(sensor.occupancy.time)`
+* `mean` is the `AVG(sensor.occupancy.value)` of presence events.
 * `median` is the `MEDIAN(sensor.occupancy.value)` of presence events. In `chronological order`, this is the middle presence event. 
 * `stddev` is the `STDDEV(sensor.occupancy.value)` of presence events
 * `first` is the `FIRST(sensor.occupancy.value)` of presence events. In `chronological order` this is the first presence event.
