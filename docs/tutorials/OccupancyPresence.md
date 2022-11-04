@@ -6,7 +6,6 @@ sidebar_position: 1
 ## Introduction
 The way you calculate occupancy from presence sensors vs traffic sensors is different. Presence sensors measure the number of people under its field of view. For example, if you have a room with 10 people and 2 presence sensors, one sensor might capture 7 people and the other sensor will capture the remaining 3.  The occupancy is the Sum of presence sensors within a room.
 
-# How to query occupancy for rooms with presence sensors
 ## 1 - Get your access token
 ### 1.1 - Using your Username and Password
 Get an access token using your username and password.  You can use the following command to get an access token:
