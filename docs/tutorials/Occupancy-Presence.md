@@ -6,9 +6,9 @@ sidebar_position: 2
 ## Introduction
 The way you calculate occupancy from presence sensors vs traffic sensors is different. Presence sensors measure the number of people under its field of view. For example, if you have a room with 10 people and 2 presence sensors, one sensor might capture 7 people and the other sensor will capture the remaining 3.  The occupancy is the Sum of presence sensors within a room.
 
-## How to query occupancy for rooms with presence sensors
-### 1 - Get your access token
-#### 1.1 - Using your Username and Password
+# How to query occupancy for rooms with presence sensors
+## 1 - Get your access token
+### 1.1 - Using your Username and Password
 Get an access token using your username and password.  You can use the following command to get an access token:
 ```bash
 curl --location --request POST 'https://api.butlr.io/api/v2/login' \
@@ -30,7 +30,7 @@ curl --location --request POST 'https://api.butlr.io/api/v2/login' \
 }
 ```
 
-#### 1.2 - Using your API Credentials
+### 1.2 - Using your API Credentials
 Another way to get an access token is by using your API credentials.  You can use the following command to get an access token:
 ```bash
 curl --location --request POST 'https://api.butlr.io/api/v2/clients/login' \
@@ -52,8 +52,8 @@ curl --location --request POST 'https://api.butlr.io/api/v2/clients/login' \
 }
 ```
 
-### 2 - Query occupancy for rooms with presence sensors
-#### 2.1 - Query `current` occupancy for all rooms
+## 2 - Query occupancy for rooms with presence sensors
+### 2.1 - Query `current` occupancy for all rooms
 When you want to query the current occupancy for all rooms with `presence` sensors, you can use the following API call:
 ```bash
 curl --location --request POST 'https://api.butlr.io/api/v3/reporting' \
@@ -230,7 +230,7 @@ function roomOccupancyByPresence(response) {
     "room_xxx2": 2
 }
 ```
-### 4 - Closing Remarks
+# Closing Remarks
 This is a very basic example of how to use the `/v3/reporting` API. There are many more things you can do with the API. For example, you can use the `max` to help you understand what's the maximum occupants that are under a field of view for a sensor.  If you capture a week's worth of data and see that the `max` for a sensor is `1`, then you can start to question if the space is too small for more than 2 people.  
 
 The important thing here is understanding your data and what each metric means.  Before aggregating data, you have to ask yourself, "what am I trying to accomplish by aggregating a metric". For example, aggregating the `stddev` doesn't make any sense at the room level. The `stddev` is a measure of how spread out the data is.  If you aggregate the `stddev` of a room, you are aggregating the spread of the data.  
