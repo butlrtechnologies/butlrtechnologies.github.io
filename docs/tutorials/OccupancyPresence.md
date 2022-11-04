@@ -230,7 +230,7 @@ function roomOccupancyByPresence(response) {
     "room_xxx2": 2
 }
 ```
-# Closing Remarks
+## Closing Remarks
 This is a very basic example of how to use the `/v3/reporting` API. There are many more things you can do with the API. For example, you can use the `max` to help you understand what's the maximum occupants that are under a field of view for a sensor.  If you capture a week's worth of data and see that the `max` for a sensor is `1`, then you can start to question if the space is too small for more than 2 people.  
 
 The important thing here is understanding your data and what each metric means.  Before aggregating data, you have to ask yourself, "what am I trying to accomplish by aggregating a metric". For example, aggregating the `stddev` doesn't make any sense at the room level. The `stddev` is a measure of how spread out the data is.  If you aggregate the `stddev` of a room, you are aggregating the spread of the data.  
