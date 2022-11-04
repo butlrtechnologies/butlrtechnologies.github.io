@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Current Occupancy - Traffic Sensors
 ## Introduction
-Traffic sensors are often placed at the door line of a room, and they measure the number of people entering and exiting the field of view. When calculating occupancy for rooms with traffic sensors this measurement is often referred to as `estimated occupancy`. Traffic sensors cannot explicitly tell you how many people are in the room, but they can tell you how many people are entering and exiting the room. The occupancy for a room (`estimated occupancy`) with traffic sensors, is the sum of enters minus the sum of exits since the start of the day.
+Traffic sensors are often placed at the door line of a room. They measure the number of people entering and exiting the field of view. When calculating occupancy for rooms with traffic sensors, this measurement is often referred to as `estimated occupancy`. Traffic sensors cannot explicitly tell you how many people are in the room, but they can tell you how many people are entering and exiting the room. The occupancy for a room (`estimated occupancy`) with traffic sensors is the sum of enters minus the sum of exits since the start of the day.
 
 ## 1 - Get your access token
 ### 1.1 - Using your Username and Password
