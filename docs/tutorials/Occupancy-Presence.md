@@ -54,7 +54,7 @@ curl --location --request POST 'https://api.butlr.io/api/v2/clients/login' \
 
 ### 2 - Query occupancy for rooms with presence sensors
 #### 2.1 - Query `current` occupancy for all rooms
-When you want to query the current occupancy for all rooms, you can use the following API call:
+When you want to query the current occupancy for all rooms with `presence` sensors, you can use the following API call:
 ```bash
 curl --location --request POST 'https://api.butlr.io/api/v3/reporting' \
 --header 'Authorization: Bearer your_access_token' \
