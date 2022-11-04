@@ -181,7 +181,7 @@ Let's assume we called the API and let `response` equal the response of the API 
 function roomOccupancyByPresence(response) {
     let occupancy = {};
 
-    // return 0 if no data is available
+    // return empty if no data is available
     if (!response?.data) {
         return occupancy;
     }
