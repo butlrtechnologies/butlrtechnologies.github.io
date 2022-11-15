@@ -2,8 +2,8 @@
 sidebar_position: 1
 ---
 
-## 1 - Get your access token
-### 1.1 - Using your Username and Password
+# Get your access token
+## 1 - Using your Username and Password
 Get an access token using your username and password.  You can use the following command to get an access token:
 ```bash
 curl --location --request POST 'https://api.butlr.io/api/v2/login' \
@@ -25,7 +25,7 @@ curl --location --request POST 'https://api.butlr.io/api/v2/login' \
 }
 ```
 
-### 1.2 - Using your API Credentials
+## 2 - Using your API Credentials
 Another way to get an access token is by using your API credentials.  You can use the following command to get an access token:
 ```bash
 curl --location --request POST 'https://api.butlr.io/api/v2/clients/login' \
