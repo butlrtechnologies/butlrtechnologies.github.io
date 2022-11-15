@@ -4,13 +4,13 @@ sidebar_position: 1
 
 # GraphQL - Get Sensors
 
-## 1. [Get Access Token](GetAccessToken.md)
+## 1. [Get Access Token](../GetAccessToken.md)
 
 ## 2 - GraphQL Query (Simple)
 **CURL Request**
 ```bash
 curl --location --request POST 'https://api.butlr.io/api/v3/graphql' \
---header 'Authorization: Bearer TOKEN HERE' \
+--header 'Authorization: Bearer INSERT_TOKEN_HERE' \
 --header 'Content-Type: application/json' \
 --data-raw '{"query":"{\n    sensors {\n        data {\n            floor_id\n            room_id\n            hive_id\n            sensor_id\n            mac_address\n            name\n            is_online\n        }\n    }\n}","variables":{}}'
 ```
