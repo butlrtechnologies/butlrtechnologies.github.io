@@ -6,7 +6,7 @@ sidebar_position: 1
 ## Introduction
 Traffic sensors are often placed at the door line of a room. They measure the number of people entering and exiting the field of view. When calculating occupancy for rooms with traffic sensors, this measurement is often referred to as `estimated occupancy`. Traffic sensors cannot explicitly tell you how many people are in the room, but they can tell you how many people are entering and exiting the room. The occupancy for a room (`estimated occupancy`) with traffic sensors is the sum of enters minus the sum of exits since the start of the day.
 
-## 1. [Get Access Token](GetAccessToken.md)
+## 1 - [Get Access Token](GetAccessToken.md)
 
 ## 2 - Query occupancy for rooms with traffic sensors
 It's important to start the query from the beginning of the day, since you want to capture traffic from the start. 

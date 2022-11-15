@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # GraphQL - Create Group
 
-## 1. [Get Access Token](../GetAccessToken.md)
+## 1 - [Get Access Token](../GetAccessToken.md)
 
 ## 2 - GraphQL Mutation
 **CURL Request**
