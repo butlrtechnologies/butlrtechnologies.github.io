@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# GraphQL - Get Sensors
+# Get Sensors
 
 ## 1 - [Get Access Token](../GetAccessToken.md)
 

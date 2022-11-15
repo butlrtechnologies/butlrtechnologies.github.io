@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# GraphQL - Get Group
+# Get Group
 
 ## 1 - [Get Access Token](../GetAccessToken.md)
 
