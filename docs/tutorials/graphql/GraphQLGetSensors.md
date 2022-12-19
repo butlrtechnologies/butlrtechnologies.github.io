@@ -6,6 +6,7 @@ sidebar_position: 1
 
 ## 1 - [Get Access Token](../GetAccessToken.md)
 
+
 ## 2 - GraphQL Query (Simple)
 **CURL Request**
 ```bash
