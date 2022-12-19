@@ -4,9 +4,9 @@ sidebar_position: 1
 
 # Get Sensors
 
-## 1 - [Get Access Token](../GetAccessToken.md)
+## 1 - [How to get an access token](../GetAccessToken.md)
 
-
+  
 ## 2 - GraphQL Query (Simple)
 **CURL Request**
 ```bash
